@@ -16,8 +16,6 @@ def get_text_from_url(filename):
             print("Error: Could not find the file '" + filename +"'")
             exit()
 
-# get text from url
-
 # The Wonderful Wizard of Oz
 text_wizard = get_text_from_url("https://www.gutenberg.org/files/55/55.txt") 
 
@@ -34,8 +32,8 @@ from collections import Counter
 num_dorothy = Counter(words_wizard)[dorothy]
 num_peter = Counter(words_peter)[peter]
 
-
-
+# look init_state() from markovify
+# look at https://github.com/jsvine/markovify#extending-markovifytext
 import markovify
 
 class SentencesByChar(markovify.Text):
@@ -43,8 +41,6 @@ class SentencesByChar(markovify.Text):
         return list(sentence)
     def word_join(self, words):
         return "".join(words)
-
-
 
 # change to "word" for a word-level model
 level = "char"
@@ -54,31 +50,28 @@ order = 10
 # if you want to completely exclude one model, set its corresponding value to 0
 weights = [0.5, 0.5]
 # limit sentence output to this number of characters
-length_limit = 500
+length_limit = 50
 
 model_cls = markovify.Text if level == "word" else SentencesByChar
 gen_wizard = model_cls(text_wizard, state_size=order)
 gen_peter = model_cls(text_peter, state_size=order)
 gen_combo = markovify.combine([gen_wizard, gen_peter], weights)
 
-
 sents_dorothy = set()
 sents_peter = set()
 
-while True:
-    sent = gen_combo.make_short_sentence(length_limit, test_output=False).replace("\n", " ")
-    if sent[:7] == dorothy:
-        sents_dorothy.add(sent)
-    elif sent[:5] == peter:
-        sents_peter.add(sent)
-    if len(sents_dorothy) >= 1 and len(sents_peter) >= 1:
-        break
+# Not the ideal solution but 'init_state=("___BEGIN__", "My")' seemed to only work with the word-level model 
+while len(sents_dorothy) < 4 or len(sents_peter) < 4:
+    sent = gen_combo.make_short_sentence(length_limit, test_output=False)
+    if type(sent) == str:
+        sent = sent.replace("\n", " ").replace("\r", "")
+        if sent[:7] == dorothy:
+            sents_dorothy.add(sent)
+        elif sent[:5] == peter:
+            sents_peter.add(sent)
 
-
-# print(sents_dorothy, sents_peter)
-
-for sent_dorothy in sents_dorothy:
-    print(sent_dorothy)
-
-for sent_peter in sents_peter:
-    print(sent_peter)
+for i in range(4):
+    print(list(sents_dorothy)[i])
+    print()
+    print(list(sents_peter)[i])
+    print()
