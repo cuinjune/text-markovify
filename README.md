@@ -7,7 +7,7 @@ The assignment was use predictive models to generate text: either a Markov chain
 
 I created a program that uses a Markov chain to combine **The Wonderful Wizard of Oz** and **Peter Pan**, and generate a new story out of it.
 
-The program creates character-level models of each book with the n-gram length of 10 and combines the two models, equally weighted using `markovify.combine()`.
+The program creates character-level models of each book's text with the n-gram length of 10 and combines the two models, equally weighted using `markovify.combine()`.
 
 And lastly, the program generates sentences using `make_short_sentence()` until it finds 4 sentences starting with "Dorothy", and 4 sentences starting with "Peter". 
 The length of the characters in each sentence is limited to 100.
