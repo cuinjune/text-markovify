@@ -50,7 +50,7 @@ order = 10
 # if you want to completely exclude one model, set its corresponding value to 0
 weights = [0.5, 0.5]
 # limit sentence output to this number of characters
-length_limit = 50
+length_limit = 100
 
 model_cls = markovify.Text if level == "word" else SentencesByChar
 gen_wizard = model_cls(text_wizard, state_size=order)
