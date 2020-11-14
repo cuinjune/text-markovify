@@ -9,7 +9,7 @@ I created a program that uses a Markov chain to combine **The Wonderful Wizard o
 
 The program creates character-level models of each book's text with the n-gram length of 10 and combines the two models, equally weighted using `markovify.combine()`.
 
-And lastly, the program generates sentences using `make_short_sentence()` until it finds 4 sentences starting with "Dorothy", and 4 sentences starting with "Peter". 
+And lastly, the program generates sentences using `make_short_sentence()` until it finds 4 sentences starting with "Dorothy", and another 4 sentences starting with "Peter". 
 The length of the characters in each sentence is limited to 100.
 
 In the future, I would like to use [Markovify with SpaCy's part-of-speech](https://github.com/jsvine/markovify#extending-markovifytext) to generate a Markov model that obeys sentence structure better than a naive model.
